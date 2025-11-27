@@ -46,14 +46,14 @@ $ npm install
    JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
    JWT_EXPIRES_IN="15m"
    JWT_REFRESH_SECRET="your-super-secret-refresh-jwt-key-change-this-in-production"
-   JWT_REFRESH_EXPIRES_IN="7d"
+   JWT_SECRET="jwttwj"
+   JWT_EXPIRES_IN="7d"
    SMTP_HOST="smtp.gmail.com"
    SMTP_PORT=587
-   SMTP_USER="your-email@gmail.com"
-   SMTP_PASS="your-app-password"
-   SMTP_FROM="noreply@example.com"
-   APP_URL="http://localhost:3000"
-   PORT=3000
+   SMTP_USER="Your@gmail.com"
+   SMTP_PASS="Yor Password"
+   SMTP_FROM="Your@gmail.com"
+   APP_URL="http://localhost:3001"
    ```
    Replace the values with your actual credentials:
    - `DATABASE_URL`: Your MySQL connection string
