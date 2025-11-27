@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// User model with authentication fields
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  name          String?
+  password      String
+  emailVerified Boolean   @default(false)
+  otp           String?
+  otpExpiresAt  DateTime?
+  resetToken    String?
+  resetExpiresAt DateTime?
+  refreshToken  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// Property model based on Bayut property listing
+model Property {
+  id                    Int       @id @default(autoincrement())
+  title                 String
+  location              String
+  price                 Decimal   @db.Decimal(15, 2)
+  bedrooms              Int
+  bathrooms             Int
+  size                  Int       // in sqft
+  description           String?   @db.Text
+  community             String
+  balcony               Boolean   @default(false)
+  type                  String    // Apartment, Villa, Townhouse, etc.
+  purpose               String    // For Sale, For Rent
+  referenceNo           String    @unique
+  completion            String    // Ready, Off-Plan
+  furnishing            String    // Furnished, Unfurnished, Semi-Furnished
+  addedOn               DateTime
+  handoverDate          String?   // Q1 2028, etc.
+  developer             String?
+  ownership             String?   // Freehold, Leasehold
+  builtUpArea           Int?      // in sqft
+  usage                 String?   // Residential, Commercial
+  balconySize           Int?      // in sqft
+  parkingAvailability   Boolean   @default(false)
+  buildingName          String?
+  totalFloors           Int?
+  swimmingPools         Int?
+  totalParkingSpaces    Int?
+  totalBuildingArea     Decimal?  @db.Decimal(15, 2) // in sqft
+  elevators             Int?
+  images                Json?     // Array of 4 Unsplash image URLs
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
