@@ -351,7 +351,7 @@ The server will run on `http://localhost:3000` (or the port specified in your `.
 **Example 4: Filter by Property Type**
 ```json
 {
-  "type": "Apartment",
+  "type": ["Apartment"],
   "page": 1,
   "limit": 10
 }
@@ -360,8 +360,8 @@ The server will run on `http://localhost:3000` (or the port specified in your `.
 **Example 5: Filter by Bedrooms and Bathrooms**
 ```json
 {
-  "bedrooms": 2,
-  "bathrooms": 2,
+  "bedrooms": [1,2],
+  "bathrooms": [2],
   "page": 1,
   "limit": 10
 }
