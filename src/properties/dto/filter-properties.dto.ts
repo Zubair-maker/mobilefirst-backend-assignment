@@ -7,6 +7,10 @@ import {
   IsNumber,
   IsArray,
   ValidateIf,
+  Validate,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidationArguments,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -21,6 +25,23 @@ export enum CompletionFilter {
   OFF_PLAN = 'Off-Plan',
 }
 
+@ValidatorConstraint({ name: 'isBedroomValue', async: false })
+export class IsBedroomValueConstraint implements ValidatorConstraintInterface {
+  validate(value: any, args: ValidationArguments) {
+    if (typeof value === 'number') {
+      return Number.isInteger(value) && value >= 0;
+    }
+    if (typeof value === 'string') {
+      return value.toLowerCase() === 'studio';
+    }
+    return false;
+  }
+
+  defaultMessage(args: ValidationArguments) {
+    return 'Each bedroom value must be a non-negative integer or "Studio"';
+  }
+}
+
 export class FilterPropertiesDto {
   @IsOptional()
   @IsEnum(PurposeFilter)
@@ -31,20 +52,20 @@ export class FilterPropertiesDto {
   completion?: CompletionFilter; // All, Ready, or Off-Plan
 
   @IsOptional()
-  @IsString()
-  type?: string; // Residential filter -> Apartment, Villa, Townhouse, etc.
+  @IsArray()
+  @IsString({ each: true })
+  type?: string[]; // Residential filter -> Apartment, Villa, Townhouse, etc. (supports multiple types)
 
   @IsOptional()
-  @IsInt()
-  @Min(0)
-  @Type(() => Number)
-  bedrooms?: number; // Beds filter
+  @IsArray()
+  @Validate(IsBedroomValueConstraint, { each: true })
+  bedrooms?: (number | string)[]; // Beds filter - supports multiple values and "Studio" (converted to 0)
 
   @IsOptional()
-  @IsInt()
-  @Min(0)
-  @Type(() => Number)
-  bathrooms?: number; // Baths filter
+  @IsArray()
+  @IsInt({ each: true })
+  @Min(0, { each: true })
+  bathrooms?: number[]; // Baths filter - supports multiple values
 
   @IsOptional()
   @IsNumber()

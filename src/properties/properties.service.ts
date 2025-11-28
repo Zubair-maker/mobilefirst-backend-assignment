@@ -42,19 +42,25 @@ export class PropertiesService {
       }
     }
 
-    // Type filter (Residential filter)
-    if (type) {
-      where.type = type;
+    // Type filter (Residential filter) - supports multiple types
+    if (type && type.length > 0) {
+      where.type = { in: type }; // Prisma 'in' operator for array of types
     }
 
-    // Bedrooms filter
-    if (bedrooms !== undefined) {
-      where.bedrooms = bedrooms;
+    // Bedrooms filter - supports multiple values and "Studio" (converted to 0)
+    if (bedrooms && bedrooms.length > 0) {
+      const bedroomValues = bedrooms.map((b) => {
+        if (typeof b === 'string' && b.toLowerCase() === 'studio') {
+          return 0; // Convert "Studio" to 0
+        }
+        return Number(b);
+      });
+      where.bedrooms = { in: bedroomValues }; // Prisma 'in' operator for array
     }
 
-    // Bathrooms filter
-    if (bathrooms !== undefined) {
-      where.bathrooms = bathrooms;
+    // Bathrooms filter - supports multiple values
+    if (bathrooms && bathrooms.length > 0) {
+      where.bathrooms = { in: bathrooms }; // Prisma 'in' operator for array
     }
 
     // Price filter (min and max)
