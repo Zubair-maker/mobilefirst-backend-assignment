@@ -161,13 +161,6 @@ prisma/
 - `POST /auth/resend-otp` - Resend OTP for email verification
 - `POST /auth/logout` - Logout (requires JWT token in Authorization header, invalidates refresh token)
 
-### Users Endpoints
-
-- `POST /users` - Create a new user
-- `GET /users` - Get all users
-- `GET /users/:id` - Get a user by ID
-- `PATCH /users/:id` - Update a user
-- `DELETE /users/:id` - Delete a user
 
 ### Properties Endpoints
 
